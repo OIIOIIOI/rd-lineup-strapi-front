@@ -20,9 +20,13 @@ export const useTeamStore = defineStore({
 		getSkaters: (state) => {
 			if (state.chosenTeam == null)
 				return []
-			let filtered = filter(state.chosenTeam.skaters, (s) => { return s.skater_role.id !== 4 })
+			let filtered = filter(state.chosenTeam.skaters, (s) => {
+				return s.skater_role ? s.skater_role.id !== 4 : true
+			})
 			// return filtered
-			return sortBy(filtered, (s) => { return s.skater_role.order })
+			return sortBy(filtered, (s) => {
+				return s.skater_role ? s.skater_role.order : s.number
+			})
 		},
 	},
 	actions: {
