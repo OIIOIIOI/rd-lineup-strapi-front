@@ -1,5 +1,5 @@
 <script setup>
-import {computed} from 'vue'
+import {computed, onMounted} from 'vue'
 
 const props = defineProps(['skater'])
 const emit = defineEmits(['toggled'])

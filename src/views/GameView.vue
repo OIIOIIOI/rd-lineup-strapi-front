@@ -15,9 +15,9 @@ onMounted(() => {
 	<div class="grid grid-cols-1 gap-4 h-screen p-4">
 		<RouterLink class="col-span-1 font-bold flex justify-center items-center border"
 		            v-if="gameStore.getChosenGame"
-		            v-for="t in gameStore.getChosenGame.attributes.teams.data"
+		            v-for="t in gameStore.getChosenGame.teams"
 		            :to="{ name: 'teamChoice', params: { gid: gameStore.getChosenGame.id, tid: t.id }}">
-			<p>{{ t.attributes.name }}</p>
+			<p>{{ t.name }}</p>
 		</RouterLink>
 	</div>
 </template>

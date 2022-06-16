@@ -31,13 +31,13 @@ function sendToTheTrack ()
 	})*/
 	
 	// Stop here if no selection
-	if (teamStore.getActiveSkaters.length === 0)
+	if (teamStore.getSelectedSkaters.length === 0)
 		return
 	
 	// Store jam
-	gameStore.addJam(teamStore.getActiveSkaters).then(() => {
+	gameStore.addJam(teamStore.getSelectedSkaters).then(() => {
 		// Toggle selection
-		forEach(teamStore.getActiveSkaters, (s) => {
+		forEach(teamStore.getSelectedSkaters, (s) => {
 			s.active = false
 		})
 	})
@@ -46,12 +46,12 @@ function sendToTheTrack ()
 
 <template>
 	<main class="h-screen p-4 flex flex-col justify-end">
-		<p v-if="teamStore.getChosenTeam">SKATERS: {{ teamStore.getActiveSkaters.length }}</p>
+		<p v-if="teamStore.getChosenTeam">SKATERS: {{ teamStore.getSelectedSkaters.length }}</p>
 		<p>JAMS: {{ gameStore.getJamCount }}</p>
 		<!-- SKATERS GRID -->
-		<div v-if="teamStore.getChosenTeam" class="">
+		<div v-if="teamStore.getChosenTeam">
 			<div class="grid grid-cols-4 gap-2">
-				<skater-card v-for="s in teamStore.getChosenTeam.attributes.skaters"
+				<skater-card v-for="s in teamStore.getSkaters"
 				             @toggled="(s) => skaterToggled(s)"
 				             :skater="s"></skater-card>
 			</div>

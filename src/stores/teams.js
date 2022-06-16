@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import {find, filter} from "lodash/collection"
+import {find, filter, sortBy} from "lodash/collection"
+import {API} from '../api/config'
 
 export const useTeamStore = defineStore({
 	id: 'teams',
@@ -11,11 +12,18 @@ export const useTeamStore = defineStore({
 	getters: {
 		getChosenTeam: (state) => state.chosenTeam,
 		getOpposingTeam: (state) => state.opposingTeam,
-		getActiveSkaters: (state) => {
+		getSelectedSkaters: (state) => {
 			if (state.chosenTeam == null)
 				return []
-			return filter(state.chosenTeam.attributes.skaters, ['active', true])
-		}
+			return filter(state.chosenTeam.skaters, ['active', true])
+		},
+		getSkaters: (state) => {
+			if (state.chosenTeam == null)
+				return []
+			let filtered = filter(state.chosenTeam.skaters, (s) => { return s.skater_role.id !== 4 })
+			// return filtered
+			return sortBy(filtered, (s) => { return s.skater_role.order })
+		},
 	},
 	actions: {
 		async fetchTeam(teamID, chosen = true) {
@@ -24,9 +32,9 @@ export const useTeamStore = defineStore({
 				const response = await axios.get(`/teams/${teamID}?populate[skaters][populate][0]=team&populate[skaters][populate][1]=skater_role`)
 				
 				if (chosen)
-					this.chosenTeam = response.data.data
+					this.chosenTeam = API.parseData(response.data)
 				else
-					this.opposingTeam = response.data.data
+					this.opposingTeam = API.parseData(response.data)
 			}
 			catch (error) {
 				console.log(error)
@@ -34,7 +42,7 @@ export const useTeamStore = defineStore({
 			}
 		},
 		toggleSkater(skaterID) {
-			const res = find(this.chosenTeam.attributes.skaters, ['id', skaterID])
+			const res = find(this.chosenTeam.skaters, ['id', skaterID])
 			if (typeof res != 'undefined')
 				res.active = typeof res.active != 'undefined' ? !res.active : true
 		},

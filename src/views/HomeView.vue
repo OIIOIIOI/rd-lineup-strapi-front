@@ -22,9 +22,9 @@ onMounted(() => {
 		            :to="{ name: 'gameChoice', params: { 'gid': g.id }}">
 			<div class="grid grid-cols-2 w-full">
 				<span class="col-span-1 py-1 text-center font-bold first:border-r-2"
-				      v-if="g.attributes.teams"
-				      v-for="t in g.attributes.teams.data">{{ t.attributes.name }}</span>
-				<span class="col-span-2 py-1 text-center">{{ getDate(g.attributes.datetime) }}</span>
+				      v-if="g.teams"
+				      v-for="t in g.teams">{{ t.name }}</span>
+				<span class="col-span-2 py-1 text-center">{{ getDate(g.datetime) }}</span>
 			</div>
 		</RouterLink>
 	</div>

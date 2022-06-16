@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import {API} from '../api/config'
 
 export const useGameStore = defineStore({
 	id: 'games',
@@ -11,13 +12,18 @@ export const useGameStore = defineStore({
 	getters: {
 		getGames: (state) => state.games,
 		getChosenGame: (state) => state.chosenGame,
-		getJamCount: (state) => state.chosenGame != null ? state.chosenGame.attributes.jams.data.length : 0,
+		getJamCount: (state) => state.chosenGame != null ? state.chosenGame.jams.length : 0,
 	},
 	actions: {
 		async fetchGames() {
 			try {
-				const response = await axios.get('/games?populate=teams')
-				this.games = response.data.data
+				const response = await axios.get(`/games?populate=teams`)
+				// console.log(response.data)
+				// console.groupCollapsed('details')
+				// let d = API.parseData(response.data)
+				// console.groupEnd()
+				// console.log(d)
+				this.games = API.parseData(response.data)
 			}
 			catch (error) {
 				console.log(error)
@@ -27,7 +33,7 @@ export const useGameStore = defineStore({
 		async fetchGame(gameID) {
 			try {
 				const response = await axios.get(`/games/${gameID}?populate=jams,teams`)
-				this.chosenGame = response.data.data
+				this.chosenGame = API.parseData(response.data)
 			}
 			catch (error) {
 				console.log(error)
@@ -43,7 +49,7 @@ export const useGameStore = defineStore({
 						skaters: skaters,
 					}
 				})
-				this.chosenGame.attributes.jams.data.push(response.data.data)
+				this.chosenGame.jams.push(API.parseData(response.data))
 			}
 			catch (error) {
 				console.log(error)
@@ -53,11 +59,9 @@ export const useGameStore = defineStore({
 		/*async addGame() {
 			try {
 				const response = await axios.post('/games', {
-					data: {
-						datetime: DJS(),
-					}
+					data: {}
 				})
-				this.games.push(response.data.data)
+				this.games.push(API.parseData(response.data))
 			}
 			catch (error) {
 				console.log(error)
