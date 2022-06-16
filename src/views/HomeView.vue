@@ -17,6 +17,7 @@ onMounted(() => {
 
 <template>
 	<div class="grid grid-cols-1 gap-4 h-screen p-4">
+		<p>HOME</p>
 		<RouterLink class="col-span-1 flex justify-center items-center border"
 		            v-for="g in gameStore.getGames"
 		            :to="{ name: 'gameChoice', params: { gid: g.id }}">
