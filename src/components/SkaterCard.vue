@@ -11,7 +11,7 @@ const classes = computed(() =>
 		c.push('active')
 	/*if (props.skater.ott === true)
 	 c.push('opacity-25')*/
-	// c.push(props.skater.attributes.skater_role.toLowerCase())
+	c.push(props.skater.skater_role.name.toLowerCase())
 	return c.join(' ')
 })
 
@@ -23,8 +23,8 @@ function toggleActive () {
 <template>
 	<div class="name-card" :class="classes">
 		<div class="name" @click="toggleActive">
-			<p>{{ skater.attributes.number }}</p>
-			<p>{{ skater.attributes.name }}</p>
+			<p>{{ skater.number }}</p>
+			<p>{{ skater.name }}</p>
 		</div>
 	</div>
 </template>

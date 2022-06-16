@@ -14,7 +14,7 @@ export const useTeamStore = defineStore({
 		getActiveSkaters: (state) => {
 			if (state.chosenTeam == null)
 				return []
-			return filter(state.chosenTeam.attributes.skaters.data, ['active', true])
+			return filter(state.chosenTeam.attributes.skaters, ['active', true])
 		}
 	},
 	actions: {
@@ -22,6 +22,7 @@ export const useTeamStore = defineStore({
 			try {
 				// const response = await axios.get(`/teams/${teamID}?populate=skaters`)
 				const response = await axios.get(`/teams/${teamID}?populate[skaters][populate][0]=team&populate[skaters][populate][1]=skater_role`)
+				
 				if (chosen)
 					this.chosenTeam = response.data.data
 				else
@@ -33,7 +34,7 @@ export const useTeamStore = defineStore({
 			}
 		},
 		toggleSkater(skaterID) {
-			const res = find(this.chosenTeam.attributes.skaters.data, ['id', skaterID])
+			const res = find(this.chosenTeam.attributes.skaters, ['id', skaterID])
 			if (typeof res != 'undefined')
 				res.active = typeof res.active != 'undefined' ? !res.active : true
 		},

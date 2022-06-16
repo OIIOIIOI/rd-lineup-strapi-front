@@ -51,7 +51,7 @@ function sendToTheTrack ()
 		<!-- SKATERS GRID -->
 		<div v-if="teamStore.getChosenTeam" class="">
 			<div class="grid grid-cols-4 gap-2">
-				<skater-card v-for="s in teamStore.getChosenTeam.attributes.skaters.data"
+				<skater-card v-for="s in teamStore.getChosenTeam.attributes.skaters"
 				             @toggled="(s) => skaterToggled(s)"
 				             :skater="s"></skater-card>
 			</div>
