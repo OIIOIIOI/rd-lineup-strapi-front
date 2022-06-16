@@ -1,5 +1,4 @@
 <script setup>
-import * as DJS from 'dayjs'
 import {RouterLink} from 'vue-router'
 import {onMounted} from 'vue'
 import {useGameStore} from '@/stores/games'
@@ -7,7 +6,8 @@ import {useGameStore} from '@/stores/games'
 const gameStore = useGameStore()
 
 function getDate (d) {
-	return DJS(d).format('DD MMMM - HH:mm')
+	return d
+	// return ???.format('DD MMMM - HH:mm')
 }
 
 onMounted(() => {
@@ -17,7 +17,6 @@ onMounted(() => {
 
 <template>
 	<div class="grid grid-cols-1 gap-4 h-screen p-4">
-		<p>HOME</p>
 		<RouterLink class="col-span-1 flex justify-center items-center border"
 		            v-for="g in gameStore.getGames"
 		            :to="{ name: 'gameChoice', params: { gid: g.id }}">
