@@ -1,4 +1,5 @@
 <script setup>
+import dayjs from 'dayjs'
 import {RouterLink} from 'vue-router'
 import {onMounted} from 'vue'
 import {useGameStore} from '@/stores/games'
@@ -6,8 +7,8 @@ import {useGameStore} from '@/stores/games'
 const gameStore = useGameStore()
 
 function getDate (d) {
-	return d
-	// return ???.format('DD MMMM - HH:mm')
+	// return d
+	return dayjs(d).format('DD MMMM - HH:mm')
 }
 
 onMounted(() => {
