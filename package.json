@@ -4,10 +4,19 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --port 4173"
+    "preview": "vite preview --port 4173",
+    "tailwind-watch": "npx tailwindcss -i ./src/assets/base.pcss -o ./src/assets/style.css --watch",
+    "tailwind-minify": "npx tailwindcss -i ./src/assets/base.pcss -o ./src/assets/style.css --minify"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.7",
+    "axios": "^0.27.2",
+    "dayjs": "^1.11.3",
+    "lodash": "^4.17.21",
     "pinia": "^2.0.14",
+    "postcss": "^8.4.14",
+    "postcss-import": "^14.1.0",
+    "tailwindcss": "^3.1.3",
     "vue": "^3.2.36",
     "vue-router": "^4.0.15"
   },
