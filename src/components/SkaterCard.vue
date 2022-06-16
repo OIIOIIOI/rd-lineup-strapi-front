@@ -9,6 +9,8 @@ const classes = computed(() =>
 	let c = []
 	if (props.skater.active)
 		c.push('active')
+	if (props.skater.magic)
+		c.push('magic')
 	/*if (props.skater.ott === true)
 	 c.push('opacity-25')*/
 	if (props.skater.skater_role)
@@ -27,6 +29,12 @@ function toggleActive () {
 			<p>{{ skater.number }}</p>
 			<p>{{ skater.name }}</p>
 		</div>
+		<div class="p-count">
+			<p>{{ skater.skater_stats.length }}</p>
+		</div>
+		<div class="j-count">
+			<p>{{ skater.jams.length }}</p>
+		</div>
 	</div>
 </template>
 
@@ -36,8 +44,8 @@ export default { name: "SkaterCard" }
 
 <style scoped>
 div.name-card {
-	@apply grid grid-cols-2 text-center items-center cursor-pointer select-none;
-	@apply bg-zinc-800 text-zinc-300;
+	@apply grid grid-cols-2 text-center items-center cursor-pointer select-none overflow-hidden;
+	@apply bg-zinc-800 text-zinc-300 border-2 border-transparent;
 	
 	> .name {
 		@apply col-span-2 py-2;
@@ -102,6 +110,10 @@ div.name-card {
 				@apply bg-purple-300;
 			}
 		}
+	}
+	
+	&.magic {
+		@apply border-zinc-300/25;
 	}
 }
 </style>

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import {API} from '../api/config'
+import {useTeamStore} from '@/stores/teams'
 
 export const useGameStore = defineStore({
 	id: 'games',
@@ -49,7 +50,14 @@ export const useGameStore = defineStore({
 						skaters: skaters,
 					}
 				})
-				this.chosenGame.jams.push(API.parseData(response.data))
+				const cleanResponse = API.parseData(response.data)
+				// Store jam in game
+				this.chosenGame.jams.push(cleanResponse)
+				// Store jam in team
+				const teamStore = useTeamStore()
+				skaters.forEach((s) => {
+					teamStore.addJam(s.id, cleanResponse)
+				})
 			}
 			catch (error) {
 				console.log(error)
