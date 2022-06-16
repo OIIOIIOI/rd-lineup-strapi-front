@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npx tailwindcss -i ./src/assets/base.pcss -o ./src/assets/style.css --minify && vite build",
     "preview": "vite preview --port 4173",
     "tailwind-watch": "npx tailwindcss -i ./src/assets/base.pcss -o ./src/assets/style.css --watch",
     "tailwind-minify": "npx tailwindcss -i ./src/assets/base.pcss -o ./src/assets/style.css --minify"
