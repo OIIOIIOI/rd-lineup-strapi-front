@@ -36,7 +36,7 @@ function resetGame () {
 		<RouterLink class="team-card"
 		            v-if="gameStore.getChosenGame"
 		            v-for="t in gameStore.getChosenGame.teams"
-		            :to="{ name: 'teamChoice', params: { gid: gameStore.getChosenGame.id, tid: t.id }}">
+		            :to="{ name: 'roleChoice', params: { gid: gameStore.getChosenGame.id, tid: t.id }}">
 			<p class="font-bold">{{ t.name }}</p>
 		</RouterLink>
 		<footer class="w-full grid grid-cols-2 text-center"

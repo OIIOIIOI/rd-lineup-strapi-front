@@ -15,19 +15,24 @@ const router = createRouter({
       component: () => import('../views/NewGameView.vue')
     },
     {
-      path: '/lineup',
-      name: 'lineup',
-      component: () => import('../views/LineupView.vue')
-    },
-    {
       path: '/game/:gid',
-      name: 'gameChoice',
+      name: 'teamChoice',
       component: () => import('../views/GameView.vue')
     },
     {
       path: '/game/:gid/:tid',
-      name: 'teamChoice',
-      component: () => import('../views/TeamView.vue')
+      name: 'roleChoice',
+      component: () => import('../views/RoleView.vue')
+    },
+    {
+      path: '/game/:gid/:tid/lineup',
+      name: 'lineup',
+      component: () => import('../views/LineupView.vue')
+    },
+    {
+      path: '/game/:gid/:tid/stats',
+      name: 'stats',
+      component: () => import('../views/StatsView.vue')
     },
   ],
 })
