@@ -21,14 +21,12 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import { registerSW } from 'virtual:pwa-register'
 
 const updateSW = registerSW({
-	onNeedRefresh() { console.log('onNeedRefresh') },
-	onOfflineReady() { console.log('onOfflineReady') },
+	onNeedRefresh() { /*console.log('onNeedRefresh')*/ },
+	onOfflineReady() { /*console.log('onOfflineReady')*/ },
 })
 
 if (import.meta.env.PROD)
 	updateSW()
-
-console.log(import.meta.env.PROD)
 
 const app = createApp(App)
 
