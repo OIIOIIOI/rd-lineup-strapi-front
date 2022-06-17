@@ -15,8 +15,10 @@ const getSkaterJams = teamStore.getSkaterJams
 
 onMounted(() =>
 {
-	gameStore.fetchGame(route.params.gid).then(() => {
-		teamStore.fetchTeam(route.params.tid, true)
+	gameStore.fetchGames().then(() => {
+		gameStore.fetchGame(route.params.gid).then(() => {
+			teamStore.fetchTeam(route.params.tid, true)
+		})
 	})
 })
 

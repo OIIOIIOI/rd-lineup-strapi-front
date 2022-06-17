@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import {API} from '../api/config'
 import {useTeamStore} from '@/stores/teams'
+import {find} from "lodash/collection"
 
 export const useGameStore = defineStore({
 	id: 'games',
@@ -73,9 +74,15 @@ export const useGameStore = defineStore({
 				this.chosenGame.jams.push(cleanResponse)
 				// Store jam in team
 				const teamStore = useTeamStore()
-				skaters.forEach((s) => {
-					teamStore.addJam(s.id, cleanResponse)
-				})
+				// Get unpopulated game
+				const res = find(this.games, ['id', this.chosenGame.id])
+				if (typeof res != 'undefined')
+				{
+					cleanResponse.game = res
+					skaters.forEach((s) => {
+						teamStore.addJam(s.id, cleanResponse)
+					})
+				}
 			}
 			catch (error) {
 				console.log(error)

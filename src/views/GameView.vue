@@ -8,7 +8,9 @@ const route = useRoute()
 const router = useRouter()
 
 onMounted(() => {
-	gameStore.fetchGame(route.params.gid)
+	gameStore.fetchGames().then(() => {
+		gameStore.fetchGame(route.params.gid)
+	})
 })
 
 function deleteGame () {
