@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onMounted} from 'vue'
 
-const props = defineProps(['skater'])
+const props = defineProps(['skater', 'jams'])
 const emit = defineEmits(['toggled'])
 
 const classes = computed(() =>
@@ -33,7 +33,7 @@ function toggleActive () {
 			<p>{{ skater.skater_stats.length }}</p>
 		</div>
 		<div class="j-count">
-			<p>{{ skater.jams.length }}</p>
+			<p>{{ props.jams }}</p>
 		</div>
 	</div>
 </template>

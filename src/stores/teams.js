@@ -2,6 +2,7 @@ import {defineStore} from 'pinia'
 import axios from 'axios'
 import {find, filter, sortBy} from "lodash/collection"
 import {API} from '../api/config'
+import qs from 'qs'
 
 export const useTeamStore = defineStore({
 	id: 'teams',
@@ -36,6 +37,19 @@ export const useTeamStore = defineStore({
 				return s.skater_role ? s.skater_role.order : s.number
 			})
 		},
+		getSkaterJams: (state) => {
+			// return 0
+			return (skaterID, gameID) => {
+				const res = find(state.chosenTeam.skaters, ['id', skaterID])
+				if (typeof res != 'undefined')
+				{
+					let filtered = filter(res.jams, (j) => {
+						return j.game ? j.game.id === gameID : false
+					})
+					return filtered.length
+				}
+			}
+		}
 	},
 	actions: {
 		async fetchTeams ()
@@ -55,8 +69,24 @@ export const useTeamStore = defineStore({
 		{
 			try
 			{
+				const populate = qs.stringify({
+					populate: {
+						skaters: {
+							populate: {
+								team: '*',
+								affinities: '*',
+								skater_role: '*',
+								skater_stats: '*',
+								jams: {
+									populate: 'game'
+								}
+							}
+						}
+					}
+				}, { encodeValuesOnly: true })
+				
 				// const response = await axios.get(`/teams/${teamID}?populate=skaters`)
-				const response = await axios.get(`/teams/${teamID}?populate[skaters][populate]=%2A`)
+				const response = await axios.get(`/teams/${teamID}?${populate}`)
 				if (chosen)
 					this.chosenTeam = API.parseData(response.data)
 				else

@@ -11,6 +11,8 @@ const gameStore = useGameStore()
 const teamStore = useTeamStore()
 const route = useRoute()
 
+const getSkaterJams = teamStore.getSkaterJams
+
 onMounted(() =>
 {
 	gameStore.fetchGame(route.params.gid).then(() => {
@@ -56,7 +58,8 @@ function sendToTheTrack ()
 			<div class="grid grid-cols-4 gap-2">
 				<skater-card v-for="s in teamStore.getSkaters"
 				             @toggled="(s) => skaterToggled(s)"
-				             :skater="s"></skater-card>
+				             :skater="s"
+				             :jams="getSkaterJams(s.id, gameStore.getChosenGame.id)"></skater-card>
 			</div>
 		</div>
 		<!-- ACTIONS BUTTONS -->
