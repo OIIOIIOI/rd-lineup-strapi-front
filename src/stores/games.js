@@ -19,11 +19,6 @@ export const useGameStore = defineStore({
 		async fetchGames() {
 			try {
 				const response = await axios.get(`/games?populate=teams`)
-				// console.log(response.data)
-				// console.groupCollapsed('details')
-				// let d = API.parseData(response.data)
-				// console.groupEnd()
-				// console.log(d)
 				this.games = API.parseData(response.data)
 			}
 			catch (error) {
@@ -35,6 +30,29 @@ export const useGameStore = defineStore({
 			try {
 				const response = await axios.get(`/games/${gameID}?populate=jams,teams`)
 				this.chosenGame = API.parseData(response.data)
+			}
+			catch (error) {
+				console.log(error)
+				return error
+			}
+		},
+		async deleteGame() {
+			try {
+				await axios.delete(`/games/${this.chosenGame.id}`)
+				this.chosenGame = null
+			}
+			catch (error) {
+				console.log(error)
+				return error
+			}
+		},
+		async resetGame() {
+			try {
+				await axios.put(`/games/${this.chosenGame.id}`, {
+					data: {
+						jams: null,
+					}
+				})
 			}
 			catch (error) {
 				console.log(error)
@@ -64,17 +82,16 @@ export const useGameStore = defineStore({
 				return error
 			}
 		},
-		/*async addGame() {
+		async addGame(data) {
 			try {
 				const response = await axios.post('/games', {
-					data: {}
+					data: data
 				})
-				this.games.push(API.parseData(response.data))
 			}
 			catch (error) {
 				console.log(error)
 				return error
 			}
-		},*/
+		},
 	},
 })

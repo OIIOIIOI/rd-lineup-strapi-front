@@ -26,19 +26,18 @@ function skaterToggled (skater)
 function sendToTheTrack ()
 {
 	// recall ott skaters
-	/*forEach(this.mainStore.allOnTheTrack, function(s) {
+	forEach(teamStore.getOTTSkaters, (s) => {
 		s.ott = false
-	})*/
-	
+	})
 	// Stop here if no selection
 	if (teamStore.getSelectedSkaters.length === 0)
 		return
-	
 	// Store jam
 	gameStore.addJam(teamStore.getSelectedSkaters).then(() => {
 		// Toggle selection
 		forEach(teamStore.getSelectedSkaters, (s) => {
-			s.active = false
+			s.ott = true
+			teamStore.toggleSkater(s.id)
 		})
 	})
 }
@@ -46,8 +45,12 @@ function sendToTheTrack ()
 
 <template>
 	<main class="h-screen p-4 flex flex-col justify-end">
-		<p v-if="teamStore.getChosenTeam">SKATERS: {{ teamStore.getSelectedSkaters.length }}</p>
-		<p>JAMS: {{ gameStore.getJamCount }}</p>
+		<header class="flex-grow flex justify-end">
+			<RouterLink class="w-8 h-8 bg-red-900 flex items-center justify-center text-sm"
+			            :to="{ name: 'home' }">
+				<font-awesome-icon icon="fa-solid fa-house" />
+			</RouterLink>
+		</header>
 		<!-- SKATERS GRID -->
 		<div v-if="teamStore.getChosenTeam">
 			<div class="grid grid-cols-4 gap-2">
@@ -58,7 +61,15 @@ function sendToTheTrack ()
 		</div>
 		<!-- ACTIONS BUTTONS -->
 		<footer class="grid grid-cols-8 gap-2 mt-4">
-			<button @click="sendToTheTrack" class="btn-go">GO</button>
+			<div @click="sendToTheTrack" class="button btn-go flex space-x-4 justify-center items-center">
+				<div class="">
+					<span class="block">START</span>
+					<span>JAM {{ gameStore.getJamCount+1 }}</span>
+				</div>
+				<div class="text-2xl">
+					<font-awesome-icon icon="fa-solid fa-hand-point-right" />
+				</div>
+			</div>
 		</footer>
 	</main>
 </template>
@@ -68,9 +79,6 @@ export default { name: "TeamView" }
 </script>
 
 <style scoped>
-button, a {
-	@apply w-full border-0 bg-zinc-800 py-6 col-span-1 text-center;
-}
 .btn-reset {
 	@apply bg-red-900;
 }
@@ -83,6 +91,6 @@ button, a {
 	@apply col-span-2 bg-zinc-700;
 }
 .btn-go {
-	@apply col-span-8 font-bold bg-zinc-300 text-zinc-800;
+	@apply col-span-8 font-bold bg-zinc-300 text-zinc-800 leading-none;
 }
 </style>

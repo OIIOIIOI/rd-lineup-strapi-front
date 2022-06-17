@@ -8,10 +8,10 @@ const teamStore = useTeamStore()
 </script>
 
 <template>
-	<div class="absolute top-0 right-0 bg-black/75 text-xs">
+<!--	<div class="absolute top-0 right-0 bg-black/75 text-xs">
 		<span class="px-1" v-if="gameStore.getChosenGame">G{{ gameStore.getChosenGame.id }}</span>
 		<span class="px-1" v-if="teamStore.getChosenTeam">T{{ teamStore.getChosenTeam.id }}</span>
-	</div>
+	</div>-->
 	<RouterView/>
 </template>
 

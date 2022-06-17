@@ -11,8 +11,8 @@ const classes = computed(() =>
 		c.push('active')
 	if (props.skater.magic)
 		c.push('magic')
-	/*if (props.skater.ott === true)
-	 c.push('opacity-25')*/
+	if (props.skater.ott === true)
+		c.push('opacity-25')
 	if (props.skater.skater_role)
 		c.push(props.skater.skater_role.name.toLowerCase())
 	return c.join(' ')

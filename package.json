@@ -9,6 +9,10 @@
     "tailwind-minify": "npx tailwindcss -i ./src/assets/base.pcss -o ./src/assets/style.css --minify"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/vue-fontawesome": "^3.0.0",
+    "@vuepic/vue-datepicker": "^3.2.2",
     "autoprefixer": "^10.4.7",
     "axios": "^0.27.2",
     "dayjs": "^1.11.3",
