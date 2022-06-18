@@ -1,8 +1,9 @@
 import {defineStore} from 'pinia'
 import axios from 'axios'
-import {find, filter, sortBy} from "lodash/collection"
+import {find, filter, sortBy, forEach} from "lodash/collection"
 import {API} from '../api/config'
 import qs from 'qs'
+import {useGameStore} from '@/stores/games'
 
 export const useTeamStore = defineStore({
 	id: 'teams',
@@ -65,11 +66,45 @@ export const useTeamStore = defineStore({
 				return error
 			}
 		},
+		async fetchGameTeams (teamID)
+		{
+			const gameStore = useGameStore()
+			if (!gameStore.getChosenGame)
+				return false
+			
+			const teamsIDs = gameStore.getChosenGame.teams.map(({id}) => id)
+			try
+			{
+				const query = qs.stringify({
+					filters: {
+						id: {
+							$in: teamsIDs,
+						},
+					},
+					populate: 'skaters',
+				}, { encodeValuesOnly: true });
+				
+				const response = await axios.get(`/teams?${query}`)
+				const cleanResponse = API.parseData(response.data)
+				// console.log(cleanResponse)
+				forEach(cleanResponse, (t) => {
+					if (t.id === teamID)
+						this.chosenTeam = t
+					else
+						this.opposingTeam = t
+				})
+			}
+			catch (error)
+			{
+				console.log(error)
+				return error
+			}
+		},
 		async fetchTeam (teamID, chosen = true)
 		{
 			try
 			{
-				const populate = qs.stringify({
+				const query = qs.stringify({
 					populate: {
 						skaters: {
 							populate: {
@@ -86,7 +121,7 @@ export const useTeamStore = defineStore({
 				}, { encodeValuesOnly: true })
 				
 				// const response = await axios.get(`/teams/${teamID}?populate=skaters`)
-				const response = await axios.get(`/teams/${teamID}?${populate}`)
+				const response = await axios.get(`/teams/${teamID}?${query}`)
 				if (chosen)
 					this.chosenTeam = API.parseData(response.data)
 				else

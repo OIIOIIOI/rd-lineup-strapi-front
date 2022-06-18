@@ -5,7 +5,7 @@ import {onMounted, reactive, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {useGameStore} from '@/stores/games'
 import {useTeamStore} from '@/stores/teams'
-import SkaterCard from '@/components/SkaterCard.vue'
+import SkaterCardLite from '@/components/SkaterCardLite.vue'
 
 const gameStore = useGameStore()
 const teamStore = useTeamStore()
@@ -15,7 +15,7 @@ onMounted(() =>
 {
 	gameStore.fetchGames().then(() => {
 		gameStore.fetchGame(route.params.gid).then(() => {
-			teamStore.fetchTeam(route.params.tid, true)
+			teamStore.fetchGameTeams(route.params.tid)
 		})
 	})
 })
@@ -32,10 +32,9 @@ onMounted(() =>
 		<!-- SKATERS GRID -->
 		<div v-if="teamStore.getOpposingTeam">
 			<div class="grid grid-cols-4 gap-2">
-				<skater-card v-for="s in teamStore.getSkaters"
-				             @toggled="(s) => skaterToggled(s)"
-				             :skater="s"
-				             :jams="getSkaterJams(s.id, gameStore.getChosenGame.id)"></skater-card>
+				<skater-card-lite v-for="s in teamStore.getOpposingTeam.skaters"
+				                  @toggled="(s) => skaterToggled(s)"
+				                  :skater="s"></skater-card-lite>
 			</div>
 		</div>
 		<!-- ACTIONS BUTTONS -->
